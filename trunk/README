@@ -1,0 +1,49 @@
+Transmission Remote Java Client
+andy@benow.ca - http://benow.ca
+
+Description:
+
+Thin and simple Java client which allows for easy remote
+access to Transmission functionality from Java applications.
+
+Requirements:
+
+ - Transmission (http://www.transmissionbt.com) 
+ - java 1.5+ (http://java.sun.com)
+ - apache ant  (http://ant.apache.org)
+
+
+Compilation:
+
+  Once ant is installed, do a
+
+	> ant clean all
+	
+ Targets of note within the ant build file include:
+
+	compile: compile java sources
+	javadoc: compile javadoc
+	clean: clean binaries
+	jar: create a jar or the java source
+  all: do everything
+
+
+Usage:
+
+ See the example for a brief overview and the javadocs for detailed information. 
+
+
+Example:
+
+  A simple example can be found as src/java/test/ca/benow/transmission/Example.java
+
+
+Deployment:
+ 
+ For use in your apps, the transmission-client-java.jar must appear in your path, along with
+ the libs in lib/java.  
+ 
+Contact:
+
+ Any questions or comments?  Contact me: andy@benow.ca
+

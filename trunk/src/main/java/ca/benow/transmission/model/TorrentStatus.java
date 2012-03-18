@@ -12,11 +12,11 @@ public class TorrentStatus extends JSONAccessor {
 
     private static Logger logger = LoggerFactory.getLogger(TorrentStatus.class);
 
-  public static int STATUS_FINISHED = 16;
-  public static int STATUS_SEEDING = 8;
-  public static int STATUS_DOWNLOADING = 4;
-  public static int STATUS_CHECKING = 2;
-  public static int STATUS_CHECK_WAIT = 1;
+  public static final int STATUS_FINISHED = 16;
+  public static final int STATUS_SEEDING = 8;
+  public static final int STATUS_DOWNLOADING = 4;
+  public static final int STATUS_CHECKING = 2;
+  public static final int STATUS_CHECK_WAIT = 1;
 
   /**
    <pre>
@@ -191,7 +191,7 @@ public class TorrentStatus extends JSONAccessor {
   }
 
   public static TorrentField[] defaultFields = new TorrentField[] { TorrentField.id, TorrentField.name, TorrentField.status,
-      TorrentField.percentDone };
+      TorrentField.percentDone, };
 
   public static String[] fieldNameByFieldPos = new String[] { null, "activityDate", "addedDate", "bandwidthPriority", "comment",
       "corruptEver", "creator", "dateCreated", "desiredAvailable", "doneDate", "downloadDir", "downloadedEver", "downloadLimit",
@@ -201,7 +201,7 @@ public class TorrentStatus extends JSONAccessor {
       "peersGettingFromUs", "peersKnown", "peersSendingToUs", "percentDone", "pieces", "pieceCount", "pieceSize", "priorities",
       "rateDownload", "rateUpload", "recheckProgress", "seedIdleLimit", "seedIdleMode", "seedRatioLimit", "seedRatioMode",
       "sizeWhenDone", "startDate", "status", "trackers", "trackerStats", "totalSize", "torrentFile", "uploadedEver",
-      "uploadLimit", "uploadLimited", "uploadRatio", "wanted", "webseeds", "webseedsSendingToUs" };
+      "uploadLimit", "uploadLimited", "uploadRatio", "wanted", "webseeds", "webseedsSendingToUs", };
 
   public TorrentStatus(JSONObject jsonObject) {
     super(jsonObject);

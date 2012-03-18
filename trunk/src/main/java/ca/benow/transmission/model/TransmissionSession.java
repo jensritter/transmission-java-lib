@@ -1,7 +1,7 @@
 package ca.benow.transmission.model;
 
 
-public class TransmissionSession {
+public final class TransmissionSession {
 
   /**
    * <pre>
@@ -64,14 +64,18 @@ public class TransmissionSession {
     altSpeedDown, altSpeedEnabled, altSpeedTimeBegin, altSpeedTimeEnabled, altSpeedTimeEnd, altSpeedTimeDay, altSpeedUp, blocklistURL, blocklistEnabled, blocklistSize, cacheSizeMB, configDir, downloadDir, dhtEnabled, encryption, idleSeedingLimit, idleSeedingLimitEnabled, incompleteDir, incompleteDirEnabled, lpdEnabled, peerLimitGlobal, peerLimitPerTorrent, pexEnabled, peerPort, peerPortRandomOnStart, portForwardingEnabled, renamePartialFiles, rpcVersion, rpcVersionMinimum, scriptTorrentDoneFilename, scriptTorrentDoneEnabled, seedRatioLimit, seedRatioLimited, speedLimitDown, speedLimitDownEnabled, speedLimitUp, speedLimitUpEnabled, startAddedTorrents, trashOriginalTorrentFiles, units, version
   }
 
-  public static String[] FIELD_NAMES = new String[] { "alt-speed-down", "alt-speed-enabled", "alt-speed-time-begin",
+  public static final String[] FIELD_NAMES = new String[] { "alt-speed-down", "alt-speed-enabled", "alt-speed-time-begin",
       "alt-speed-time-enabled", "alt-speed-time-end", "alt-speed-time-day", "alt-speed-up", "blocklist-url", "blocklist-enabled",
       "blocklist-size", "cache-size-mb", "config-dir", "download-dir", "dht-enabled", "encryption", "idle-seeding-limit",
       "idle-seeding-limit-enabled", "incomplete-dir", "incomplete-dir-enabled", "lpd-enabled", "peer-limit-global",
       "peer-limit-per-torrent", "pex-enabled", "peer-port", "peer-port-random-on-start", "port-forwarding-enabled",
       "rename-partial-files", "rpc-version", "rpc-version-minimum", "script-torrent-done-filename",
       "script-torrent-done-enabled", "seedRatioLimit", "seedRatioLimited", "speed-limit-down", "speed-limit-down-enabled",
-      "speed-limit-up", "speed-limit-up-enabled", "start-added-torrents", "trash-original-torrent-files", "units", "version" };
+      "speed-limit-up", "speed-limit-up-enabled", "start-added-torrents", "trash-original-torrent-files", "units", "version", };
+
+  private TransmissionSession() {
+
+  }
 
   public static class SessionPair {
     public final SessionField field;
