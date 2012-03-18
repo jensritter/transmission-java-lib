@@ -13,7 +13,7 @@ public class Example {
   public static void main(
       String[] args) {
     try {
-      TransmissionClient client = new TransmissionClient(new URL("http://hacker:linux@matrix.jens.org:9091/transmission/rpc"));
+      TransmissionClient client = new TransmissionClient(new URL("http://hacker:linux@192.168.100.1:9091/transmission/rpc"));
       List<TorrentStatus> torrents = client.getAllTorrents();
       for (TorrentStatus curr : torrents)
         System.out.println(curr);
