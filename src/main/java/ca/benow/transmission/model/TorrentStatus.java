@@ -224,11 +224,19 @@ public class TorrentStatus extends JSONAccessor {
   }
 
   public double getPercentDone() throws JSONException {
-    return (Double) getField(TorrentField.percentDone);
+      Object it = getField(TorrentField.percentDone);
+      if (it instanceof Integer) {
+          Integer wert = (Integer) it;
+          return wert.doubleValue();
+      }
+      if (it instanceof Double) {
+          return (Double) it;
+      }
+      throw new JSONException("Unknown Datatype for percentdone : " + it.getClass());
   }
 
-  public String getStatus() throws JSONException {
-    return (String) getField(TorrentField.status);
+  public int getStatus() throws JSONException {
+    return (Integer) getField(TorrentField.status);
   }
 
   public String getName() throws JSONException {
