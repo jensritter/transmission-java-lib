@@ -12,6 +12,22 @@ public class TorrentStatus extends JSONAccessor {
 
     private static Logger logger = LoggerFactory.getLogger(TorrentStatus.class);
 
+    public static enum STATUS {
+        FINISHED, SEEDING, DOWNLOADING, CHECKING, CHECK_WAIT
+    }
+
+    public static STATUS parseStatus(int value) throws JSONException {
+        switch(value) {
+        case STATUS_FINISHED: return STATUS.FINISHED;
+        case STATUS_SEEDING: return STATUS.SEEDING;
+        case STATUS_DOWNLOADING: return STATUS.DOWNLOADING;
+        case STATUS_CHECKING: return STATUS.CHECKING;
+        case STATUS_CHECK_WAIT: return STATUS.CHECK_WAIT;
+        default:
+            throw new JSONException("Unknown status : " + value);
+        }
+    }
+
   public static final int STATUS_FINISHED = 16;
   public static final int STATUS_SEEDING = 8;
   public static final int STATUS_DOWNLOADING = 4;
