@@ -252,10 +252,10 @@ public class TransmissionClient {
                     }
                 }
                 if (hasAll) {
-                    requestedFields = new TorrentField[TorrentField.values().length - 1];
-                    for (int i = 0; i < TorrentField.values().length; i++) {
-                        requestedFields[i] = TorrentField.values()[i + 1];
-                    }
+                    TorrentField[] values = TorrentField.values();
+                    requestedFields = new TorrentField[values.length-1];
+                    System.arraycopy(values, 1, requestedFields, 0, values.length-1);
+                    logger.trace("requested Fields : {} ",requestedFields);
                 }
             }
         }
