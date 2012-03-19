@@ -261,13 +261,18 @@ public class TorrentStatus extends JSONAccessor {
 
   public Date getDateField(TorrentField field) throws JSONException {
       Object it = getField(field);
+      long value = 0;
       if (it instanceof Long) {
-          return new Date((Long)it);
+          value = (Long)it;
+      } else if (it instanceof Integer) {
+          value = (Integer) it;
+      } else {
+          throw new JSONException("Unknown Datatype for "+field+" : " + it.getClass());
       }
-      if (it instanceof Integer) {
-          return new Date((Integer)it);
-      }
-      throw new JSONException("Unknown Datatype for "+field+" : " + it.getClass());
+      // this is a correct time-long : 1322313588000
+      // this comes from transmission: 1322313588
+      // -> *1000
+      return new Date(value*1000);
   }
 
   @Override

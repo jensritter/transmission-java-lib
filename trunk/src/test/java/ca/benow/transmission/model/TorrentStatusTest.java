@@ -14,10 +14,9 @@ import ca.benow.transmission.model.TorrentStatus.TorrentField;
 
 public class TorrentStatusTest {
 
-    private static final String JSON="{\"id\":2,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1}";
+    private static final String JSON="{\"id\":2,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1,\"dateCreated\":1322313588}";
 
-    // "doneDate":1331952203
-    // "doneDate":0
+    // 11/26/2011 2:19:48 PM
 
     @Before
     public void setUp() throws JSONException {
@@ -60,6 +59,30 @@ public class TorrentStatusTest {
 
     @Test
     public void testGetDateField() throws JSONException {
+        //11/26/2011 2:19:48 PM
+        // 2 == 14Uhr
+        DateTime must = new DateTime(2011,11,26,14,19,48);
+        Object obj = status.getField(TorrentField.dateCreated);
+        assertEquals(Integer.class,obj.getClass());
+        int value = (Integer)obj;
+        assertEquals(1322313588,value);
+
+        Date shouldDate = new Date(must.getMillis());
+        Date isDate = status.getDateField(TorrentField.dateCreated);
+
+        long mustSecon = must.getMillis();
+        long isSecon = isDate.getTime();
+        System.out.println(mustSecon);
+        System.out.println(isSecon);
+
+        assertEquals(shouldDate.toString(),isDate.toString());
+
+
+
+    }
+
+    @Test
+    public void testGetDateFieldOther() throws JSONException {
         TorrentStatus status0 = new TorrentStatus(new JSONObject("{\"id\":2,\"doneDate\":0,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1}"));
         TorrentStatus statusDate = new TorrentStatus(new JSONObject("{\"id\":2,\"doneDate\":1331952203,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1}"));
 
@@ -69,7 +92,8 @@ public class TorrentStatusTest {
         DateTime timeZero = new DateTime(dateZero);
         DateTime timeIs = new DateTime(dateIs);
 
-        DateTime must = new DateTime(1331952203);
+        //3/17/2012 3:43:23 AM
+        DateTime must = new DateTime(2012,3,17,3,43,23);
         DateTime must0 = new DateTime(0);
 
         assertEquals(must0, timeZero);
@@ -79,6 +103,7 @@ public class TorrentStatusTest {
     @Test
     public void testToString() {
         assertEquals("{\n"
+                + "  \"dateCreated\": 1322313588,\n"
                 + "  \"id\": 2,\n"
                 + "  \"name\": \"linuxmint-12-gnome-dvd-64bit.iso\",\n"
                 + "  \"percentDone\": 1,\n"
