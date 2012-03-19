@@ -2,6 +2,9 @@ package ca.benow.transmission.model;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Date;
+
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -12,6 +15,9 @@ import ca.benow.transmission.model.TorrentStatus.TorrentField;
 public class TorrentStatusTest {
 
     private static final String JSON="{\"id\":2,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1}";
+
+    // "doneDate":1331952203
+    // "doneDate":0
 
     @Before
     public void setUp() throws JSONException {
@@ -51,12 +57,25 @@ public class TorrentStatusTest {
     public void testGetName() throws JSONException {
         assertEquals("linuxmint-12-gnome-dvd-64bit.iso",status.getName());
     }
-/*
+
     @Test
-    public void testGetDateField() {
-        // no method is using this
+    public void testGetDateField() throws JSONException {
+        TorrentStatus status0 = new TorrentStatus(new JSONObject("{\"id\":2,\"doneDate\":0,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1}"));
+        TorrentStatus statusDate = new TorrentStatus(new JSONObject("{\"id\":2,\"doneDate\":1331952203,\"status\":0,\"name\":\"linuxmint-12-gnome-dvd-64bit.iso\",\"percentDone\":1}"));
+
+        Date dateZero = status0.getDateField(TorrentField.doneDate);
+        Date dateIs = statusDate.getDateField(TorrentField.doneDate);
+
+        DateTime timeZero = new DateTime(dateZero);
+        DateTime timeIs = new DateTime(dateIs);
+
+        DateTime must = new DateTime(1331952203);
+        DateTime must0 = new DateTime(0);
+
+        assertEquals(must0, timeZero);
+        assertEquals(must,timeIs);
     }
-*/
+
     @Test
     public void testToString() {
         assertEquals("{\n"

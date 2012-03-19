@@ -259,9 +259,15 @@ public class TorrentStatus extends JSONAccessor {
     return (String) getField(TorrentField.name);
   }
 
-  public Date getDateField(
-      TorrentField field) throws JSONException {
-    return new Date((Long) getField(field));
+  public Date getDateField(TorrentField field) throws JSONException {
+      Object it = getField(field);
+      if (it instanceof Long) {
+          return new Date((Long)it);
+      }
+      if (it instanceof Integer) {
+          return new Date((Integer)it);
+      }
+      throw new JSONException("Unknown Datatype for "+field+" : " + it.getClass());
   }
 
   @Override
