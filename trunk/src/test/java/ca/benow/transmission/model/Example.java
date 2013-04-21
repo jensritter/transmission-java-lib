@@ -1,6 +1,5 @@
 package ca.benow.transmission.model;
 
-import java.net.URL;
 import java.util.List;
 
 import ca.benow.transmission.TransmissionClient;
@@ -13,7 +12,8 @@ public class Example {
    */
   public static void main(String[] args) {
     try {
-      TransmissionClient client = new TransmissionClient(new URL("http://hacker:linux@192.168.100.1:9091/transmission/rpc"));
+        
+      TransmissionClient client = new TransmissionClient("192.168.100.1", "hacker", "linux");
       List<TorrentStatus> torrents = client.getAllTorrents(new TorrentField[] { TorrentField.doneDate,TorrentField.id, TorrentField.dateCreated, TorrentField.name});
 
       //client.addTorrent("magnet:?xt=urn:btih:06af168404029a8ca21a06c43fcb7dd49c288c4f&dn=debian-6.0.7-amd64-CD-1.iso&tr=http%3A%2F%2Fbttracker.debian.org%3A6969%2Fannounce");
