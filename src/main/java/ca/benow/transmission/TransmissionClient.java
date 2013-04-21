@@ -5,8 +5,7 @@ import java.net.*;
 import java.util.*;
 
 import org.json.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 
 import ca.benow.transmission.model.*;
 import ca.benow.transmission.model.TorrentStatus.TorrentField;
@@ -369,6 +368,21 @@ public class TransmissionClient {
                 .priorityLows(priorityLow)
                 );
     }
+    
+    public AddedTorrentInfo addTorrent(String filenameOrUrl) throws IOException, JSONException {
+        return addTorrentUrl(
+                AddTorrentParameter.builder()
+                .torrentFileNameOrURL(filenameOrUrl)
+                );
+    }
+    
+    private AddedTorrentInfo addTorrentUrl(AddTorrentParameter parameterObject) throws IOException, JSONException {
+        JSONObject obj = new JSONObject();
+        obj.put("filename", parameterObject.torrentFileNameOrURL);
+        JSONObject result = sendCommand("torrent-add", obj);
+        return new AddedTorrentInfo(result.getJSONObject("torrent-added"));
+    }
+    
 
     private AddedTorrentInfo addTorrent(AddTorrentParameter parameterObject) throws IOException, JSONException {
         JSONObject obj = new JSONObject();
