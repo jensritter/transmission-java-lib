@@ -265,7 +265,7 @@ public class TransmissionClient {
         }
         args.put("fields", fields);
 
-        List<TorrentStatus> torrents = new ArrayList<TorrentStatus>();
+        List<TorrentStatus> torrents = new ArrayList<>();
         JSONObject result = sendCommand("torrent-get", args);
         JSONArray torAry = result.getJSONArray("torrents");
         for (int i = 0; i < torAry.length(); i++) {
@@ -748,7 +748,7 @@ public class TransmissionClient {
 
     public Map<SessionField, Object> getSession() throws IOException, JSONException {
         JSONObject result = sendCommand("session-get", null);
-        Map<SessionField, Object> valByField = new HashMap<SessionField, Object>();
+        Map<SessionField, Object> valByField = new HashMap<>();
         for (int i = 0; i < TransmissionSession.FIELD_NAMES.length; i++) {
             String curr = TransmissionSession.FIELD_NAMES[i];
             Object val = result.get(curr);
