@@ -380,6 +380,11 @@ public class TransmissionClient {
         JSONObject obj = new JSONObject();
         obj.put("filename", parameterObject.torrentFileNameOrURL);
         JSONObject result = sendCommand("torrent-add", obj);
+        logger.trace("Result from Transmission: {}",result);
+        // could be : {"torrent-duplicate":{"id":62,"name":"Filename of Torret","hashString":"hashString"}}
+        if (result.has("torrent-duplicate")) {
+            return new DuplicateTorrentInfo(result.getJSONObject("torrent-duplicate"));
+        }
         return new AddedTorrentInfo(result.getJSONObject("torrent-added"));
     }
     
