@@ -223,7 +223,7 @@ public class TransmissionClient {
      * @param ids
      *          optional ids of torrents to fetch status for, if not given, status
      *          for all torrents will be fetched
-     * @param requestedFields
+     * @param requestedFieldsValue
      *          information fields to fetch, if not given, only the id and name
      *          fields are fetched
      * @return status for requested torrents
