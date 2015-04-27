@@ -14,7 +14,7 @@ import java.io.*;
  */
 final class Base64 {
 
-    private Base64() { };
+    private Base64() { }
 
     private static final String BASE64CODE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             + "abcdefghijklmnopqrstuvwxyz" + "0123456789" + "+/";
@@ -27,14 +27,14 @@ final class Base64 {
         return padded;
     }
 
-    public static String encode(String string) {
+    public static String encode(String value) {
 
         byte[] stringArray;
         try {
-            stringArray = string.getBytes("UTF-8"); // use appropriate encoding
+            stringArray = value.getBytes("UTF-8"); // use appropriate encoding
             // string!
         } catch (UnsupportedEncodingException ignored) {
-            stringArray = string.getBytes(); // use locale default rather than croak
+            stringArray = value.getBytes(); // use locale default rather than croak
         }
         return encode(stringArray);
     }

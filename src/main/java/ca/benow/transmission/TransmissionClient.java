@@ -1,16 +1,34 @@
 package ca.benow.transmission;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-
-import org.json.*;
-import org.slf4j.*;
-
-import ca.benow.transmission.model.*;
+import ca.benow.transmission.model.AddedTorrentInfo;
+import ca.benow.transmission.model.DuplicateTorrentInfo;
+import ca.benow.transmission.model.SessionStatus;
+import ca.benow.transmission.model.TorrentStatus;
 import ca.benow.transmission.model.TorrentStatus.TorrentField;
+import ca.benow.transmission.model.TrackerPair;
+import ca.benow.transmission.model.TransmissionSession;
 import ca.benow.transmission.model.TransmissionSession.SessionField;
 import ca.benow.transmission.model.TransmissionSession.SessionPair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The main class for interacting with transmission. Create an instance with
@@ -172,7 +190,7 @@ public class TransmissionClient {
         JSONObject command = new JSONObject();
         command.put("method", name);
         command.put("arguments", args);
-        command.put("tag", "" + tag++);
+        command.put("tag", String.valueOf(tag++));
 
         String json = command.toString(2);
         OutputStream out = hconn.getOutputStream();
@@ -230,12 +248,12 @@ public class TransmissionClient {
      * @throws IOException
      * @throws JSONException
      */
-    public List<TorrentStatus> getTorrents(int[] ids, final TorrentStatus.TorrentField[] requestedFieldsValue) throws IOException, JSONException {
+    public List<TorrentStatus> getTorrents(int[] ids, final TorrentField[] requestedFieldsValue) throws IOException, JSONException {
         JSONObject args = new JSONObject();
         if (ids != null && ids.length > 0) {
             JSONArray idAry = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                idAry.put(ids[i]);
+            for(int id : ids) {
+                idAry.put(id);
             }
             args.put("ids", idAry);
         }
@@ -245,8 +263,8 @@ public class TransmissionClient {
         } else {
             if (requestedFieldsValue.length > 0) {
                 boolean hasAll = false;
-                for (int i = 0; i < requestedFields.length; i++) {
-                    if (requestedFields[i].equals(TorrentField.all)) {
+                for(TorrentField requestedField : requestedFields) {
+                    if(requestedField.equals(TorrentField.all)) {
                         hasAll = true;
                     }
                 }
@@ -254,14 +272,14 @@ public class TransmissionClient {
                     TorrentField[] values = TorrentField.values();
                     requestedFields = new TorrentField[values.length-1];
                     System.arraycopy(values, 1, requestedFields, 0, values.length-1);
-                    logger.trace("requested Fields : {} ",requestedFields);
+                    logger.trace("requested Fields : {} ",requestedFields.toString());
                 }
             }
         }
 
         JSONArray fields = new JSONArray();
-        for (int i = 0; i < requestedFields.length; i++) {
-            fields.put(TorrentStatus.fieldNameByFieldPos[requestedFields[i].ordinal()]);
+        for(TorrentField requestedField : requestedFields) {
+            fields.put(TorrentStatus.fieldNameByFieldPos[requestedField.ordinal()]);
         }
         args.put("fields", fields);
 
@@ -439,8 +457,8 @@ public class TransmissionClient {
             obj.put("ids", ids[1]);
         else {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                ary.put(ids[i]);
+            for(Object id : ids) {
+                ary.put(id);
             }
             obj.put("ids", ary);
         }
@@ -463,8 +481,8 @@ public class TransmissionClient {
             obj.put("ids", ids[1]);
         else {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                ary.put(ids[i]);
+            for(Object id : ids) {
+                ary.put(id);
             }
             obj.put("ids", ary);
         }
@@ -487,8 +505,8 @@ public class TransmissionClient {
             obj.put("ids", ids[1]);
         else {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                ary.put(ids[i]);
+            for(Object id : ids) {
+                ary.put(id);
             }
             obj.put("ids", ary);
         }
@@ -511,8 +529,8 @@ public class TransmissionClient {
             obj.put("ids", ids[1]);
         else {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                ary.put(ids[i]);
+            for(Object id : ids) {
+                ary.put(id);
             }
             obj.put("ids", ary);
         }
@@ -582,8 +600,8 @@ public class TransmissionClient {
         else {
             JSONArray ary = new JSONArray();
             if (ids != null) {
-                for (int i = 0; i < ids.length; i++) {
-                    ary.put(ids[i]);
+                for(Object id : ids) {
+                    ary.put(id);
                 }
             }
             obj.put("ids", ary);
@@ -593,15 +611,15 @@ public class TransmissionClient {
         obj.put("downloadLimited", downloadLimited);
         if (filesWanted != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < filesWanted.length; i++) {
-                ary.put(filesWanted[i]);
+            for(int aFilesWanted : filesWanted) {
+                ary.put(aFilesWanted);
             }
             obj.put("files-wanted", ary);
         }
         if (filesUnwanted != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < filesUnwanted.length; i++) {
-                ary.put(filesUnwanted[i]);
+            for(int aFilesUnwanted : filesUnwanted) {
+                ary.put(aFilesUnwanted);
             }
             obj.put("files-unwanted", ary);
         }
@@ -611,22 +629,22 @@ public class TransmissionClient {
         obj.put("peer-limit", peerLimit);
         if (priorityHigh != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < priorityHigh.length; i++) {
-                ary.put(priorityHigh[i]);
+            for(int aPriorityHigh : priorityHigh) {
+                ary.put(aPriorityHigh);
             }
             obj.put("priority-high", ary);
         }
         if (priorityLow != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < priorityLow.length; i++) {
-                ary.put(priorityLow[i]);
+            for(int aPriorityLow : priorityLow) {
+                ary.put(aPriorityLow);
             }
             obj.put("priority-low", ary);
         }
         if (priorityNormal != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < priorityNormal.length; i++) {
-                ary.put(priorityNormal[i]);
+            for(int aPriorityNormal : priorityNormal) {
+                ary.put(aPriorityNormal);
             }
             obj.put("priority-normal", ary);
         }
@@ -637,24 +655,24 @@ public class TransmissionClient {
         obj.put("seedRatioMode", seedRatioMode);
         if (trackerAdd != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < trackerAdd.length; i++) {
-                ary.put(trackerAdd[i]);
+            for(String aTrackerAdd : trackerAdd) {
+                ary.put(aTrackerAdd);
             }
             obj.put("trackerAdd", ary);
         }
         if (trackerRemove != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < trackerRemove.length; i++) {
-                ary.put(trackerRemove[i]);
+            for(int aTrackerRemove : trackerRemove) {
+                ary.put(aTrackerRemove);
             }
             obj.put("trackerRemove", ary);
         }
         if (trackerReplace != null) {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < trackerReplace.length; i++) {
+            for(TrackerPair aTrackerReplace : trackerReplace) {
                 JSONArray ary2 = new JSONArray();
-                ary2.put(trackerReplace[i].id);
-                ary2.put(trackerReplace[i].newURL);
+                ary2.put(aTrackerReplace.id);
+                ary2.put(aTrackerReplace.newURL);
                 ary.put(ary2);
             }
             obj.put("trackerReplace", ary);
@@ -683,8 +701,8 @@ public class TransmissionClient {
             obj.put("ids", ids[1]);
         else {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                ary.put(ids[i]);
+            for(Object id : ids) {
+                ary.put(id);
             }
             obj.put("ids", ary);
         }
@@ -710,8 +728,8 @@ public class TransmissionClient {
             obj.put("ids", ids[0]);
         else {
             JSONArray ary = new JSONArray();
-            for (int i = 0; i < ids.length; i++) {
-                ary.put(ids[i]);
+            for(Object id : ids) {
+                ary.put(id);
             }
             obj.put("ids", ary);
         }
@@ -720,7 +738,7 @@ public class TransmissionClient {
         sendCommand("torrent-set-location", obj);
     }
 
-    private static final SessionField[] SET_SESSION_DISALLOWED = new TransmissionSession.SessionField[] {
+    private static final SessionField[] SET_SESSION_DISALLOWED = {
         SessionField.blocklistSize, SessionField.configDir,
         SessionField.rpcVersion, SessionField.rpcVersionMinimum,
         SessionField.version,
@@ -740,13 +758,13 @@ public class TransmissionClient {
         if (pairs == null)
             throw new NullPointerException("At least one pair is required");
         JSONObject obj = new JSONObject();
-        for (int i = 0; i < pairs.length; i++) {
-            SessionField curr = pairs[i].field;
-            for (int j = 0; j < SET_SESSION_DISALLOWED.length; j++) {
-                if (SET_SESSION_DISALLOWED[j] == curr)
+        for(SessionPair pair : pairs) {
+            SessionField curr = pair.field;
+            for(int j = 0; j < SET_SESSION_DISALLOWED.length; j++) {
+                if(SET_SESSION_DISALLOWED[j] == curr)
                     throw new IllegalArgumentException("Disallowed: " + curr.name());
             }
-            obj.put(TransmissionSession.FIELD_NAMES[curr.ordinal()], pairs[i].value);
+            obj.put(TransmissionSession.FIELD_NAMES[curr.ordinal()], pair.value);
         }
         sendCommand("session-set", obj);
     }

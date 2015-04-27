@@ -1,18 +1,18 @@
 package ca.benow.transmission.model;
 
-import java.util.Date;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
 
 public class TorrentStatus extends JSONAccessor {
 
 
     private static Logger logger = LoggerFactory.getLogger(TorrentStatus.class);
 
-    public static enum STATUS {
+    public enum STATUS {
         FINISHED, SEEDING, DOWNLOADING, CHECKING, CHECK_WAIT
     }
 
@@ -206,10 +206,10 @@ public class TorrentStatus extends JSONAccessor {
     all, activityDate, addedDate, bandwidthPriority, comment, corruptEver, creator, dateCreated, desiredAvailable, doneDate, downloadDir, downloadedEver, downloadLimit, downloadLimited, error, errorString, eta, files, fileStats, hashString, haveUnchecked, haveValid, honorsSessionLimits, id, isFinished, isPrivate, leftUntilDone, magnetLink, manualAnnounceTime, maxConnectedPeers, metadataPercentComplete, name, peerLimit, peers, peersConnected, peersFrom, peersGettingFromUs, peersKnown, peersSendingToUs, percentDone, pieces, pieceCount, pieceSize, priorities, rateDownload, rateUpload, recheckProgress, seedIdleLimit, seedIdleMode, seedRatioLimit, seedRatioMode, sizeWhenDone, startDate, status, trackers, trackerStats, totalSize, torrentFile, uploadedEver, uploadLimit, uploadLimited, uploadRatio, wanted, webseeds, webseedsSendingToUs
   }
 
-  public static TorrentField[] defaultFields = new TorrentField[] { TorrentField.id, TorrentField.name, TorrentField.status,
+  public static TorrentField[] defaultFields = { TorrentField.id, TorrentField.name, TorrentField.status,
       TorrentField.percentDone, };
 
-  public static String[] fieldNameByFieldPos = new String[] { null, "activityDate", "addedDate", "bandwidthPriority", "comment",
+  public static String[] fieldNameByFieldPos = { null, "activityDate", "addedDate", "bandwidthPriority", "comment",
       "corruptEver", "creator", "dateCreated", "desiredAvailable", "doneDate", "downloadDir", "downloadedEver", "downloadLimit",
       "downloadLimited", "error", "errorString", "eta", "files", "fileStats", "hashString", "haveUnchecked", "haveValid",
       "honorsSessionLimits", "id", "isFinished", "isPrivate", "leftUntilDone", "magnetLink", "manualAnnounceTime",

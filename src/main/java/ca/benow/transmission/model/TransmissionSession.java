@@ -64,7 +64,7 @@ public final class TransmissionSession {
     altSpeedDown, altSpeedEnabled, altSpeedTimeBegin, altSpeedTimeEnabled, altSpeedTimeEnd, altSpeedTimeDay, altSpeedUp, blocklistURL, blocklistEnabled, blocklistSize, cacheSizeMB, configDir, downloadDir, dhtEnabled, encryption, idleSeedingLimit, idleSeedingLimitEnabled, incompleteDir, incompleteDirEnabled, lpdEnabled, peerLimitGlobal, peerLimitPerTorrent, pexEnabled, peerPort, peerPortRandomOnStart, portForwardingEnabled, renamePartialFiles, rpcVersion, rpcVersionMinimum, scriptTorrentDoneFilename, scriptTorrentDoneEnabled, seedRatioLimit, seedRatioLimited, speedLimitDown, speedLimitDownEnabled, speedLimitUp, speedLimitUpEnabled, startAddedTorrents, trashOriginalTorrentFiles, units, version
   }
 
-  public static final String[] FIELD_NAMES = new String[] { "alt-speed-down", "alt-speed-enabled", "alt-speed-time-begin",
+  public static final String[] FIELD_NAMES = { "alt-speed-down", "alt-speed-enabled", "alt-speed-time-begin",
       "alt-speed-time-enabled", "alt-speed-time-end", "alt-speed-time-day", "alt-speed-up", "blocklist-url", "blocklist-enabled",
       "blocklist-size", "cache-size-mb", "config-dir", "download-dir", "dht-enabled", "encryption", "idle-seeding-limit",
       "idle-seeding-limit-enabled", "incomplete-dir", "incomplete-dir-enabled", "lpd-enabled", "peer-limit-global",
